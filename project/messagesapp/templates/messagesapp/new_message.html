@@ -1,0 +1,22 @@
+{% if error_message %}
+<h2><strong>{{ error_message }}</strong></h2>
+{% endif %}
+
+<p>Send a new message:</p>
+<form action="{% url 'messagesapp:new_message' %}" method="post">
+  {% csrf_token %}
+
+  <label for="recipient">Recipient:</label>
+  <br />
+
+  <input type="text" name="recipient" id="recipient" />
+  <br />
+
+  <label for="content">Content:</label>
+  <br />
+
+  <input type="text" name="content" id="content" />
+  <br />
+
+  <input type="submit" value="Send" />
+</form>

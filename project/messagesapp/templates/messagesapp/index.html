@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Message app</title>
+  </head>
+  <body>
+    <p>This is a message app!</p>
+    <p>You're logged in as {{ user.username }}</p>
+
+    <a href="{% url 'messagesapp:logout' %}">Logout</a>
+    <p></p>
+
+    <a href="{% url 'messagesapp:new_message' %}"> Send a new message</a>
+
+    {% if received_messages_list %}
+    <ul>
+      <h2>Received Messages</h2>
+      <p>Here are the messages you have received:</p>
+      {% for message in received_messages_list %}
+      <li>
+        <a href="{% url 'messagesapp:detail' message.id %}"
+          >{{ message.content }}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No messages received.</p>
+    {% endif %} {% if sent_messages_list %}
+    <ul>
+      <h2>Sent Messages</h2>
+      <p>Here are the messages you have sent:</p>
+      {% for message in sent_messages_list %}
+      <li>
+        <a href="{% url 'messagesapp:detail' message.id %}"
+          >{{ message.content }}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No messages sent.</p>
+    {% endif %}
+
+    <h3>Search Messages</h3>
+    <form action="{% url 'messagesapp:search' %}" method="get">
+      <input type="text" name="query" placeholder="Search messages..." />
+      <input type="submit" value="Search" />
+    </form>
+  </body>
+</html>

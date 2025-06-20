@@ -1,0 +1,15 @@
+<h1>Search Results for "{{ query }}"</h1>
+{% if messages %}
+<ul>
+  {% for message in messages %}
+  <li>
+    <a href="{% url 'messagesapp:detail' message.id %}"
+      >{{ message.content }}</a
+    >
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No messages found for "{{ query }}".</p>
+{% endif %}
+<a href="{% url 'messagesapp:index' %}">Back to messages</a>
