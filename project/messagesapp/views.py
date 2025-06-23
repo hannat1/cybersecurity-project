@@ -7,6 +7,7 @@ from django.contrib.auth import login as auth_login
 from django.http import Http404
 from django.forms import TextInput, PasswordInput
 from .models import Message
+from django.contrib.auth.models import User
 from datetime import datetime
 import sqlite3
 import bleach
@@ -40,7 +41,7 @@ def detail(request, message_id):
 # Users can send messages without CSRF protection
 # Fix:
 # Remove the @csrf_exempt decorator below to enable CSRF protection
-@csrf_exempt
+#@csrf_exempt
 def new_message(request):
     if request.method == 'POST':
         try:
@@ -64,12 +65,15 @@ def new_message(request):
             return render(request, 'messagesapp/new_message.html', {
                 'error_message': e,
             })
-    return render(request, 'messagesapp/new_message.html')
+    users = User.objects.all().values_list('username', flat=True)
+    context = {
+        'users': users,
+    }
+    return render(request, 'messagesapp/new_message.html', context)
         
 
 def register(request):
     if request.method == 'POST':
-        print("Registering new user")
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()

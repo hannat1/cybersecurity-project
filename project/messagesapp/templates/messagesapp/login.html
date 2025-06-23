@@ -1,11 +1,16 @@
-<h2>Login</h2>
-{% if error_message %}
-<h2><strong>{{ error_message }}</strong></h2>
-{% endif %}
+{% extends "messagesapp/base.html" %} {% block content %}
+<div class="container mt-4 p-4">
+  <h1>Login to Your Account</h1>
+  {% if error_message %}
+  <h2><strong>{{ error_message }}</strong></h2>
+  {% endif %}
 
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+  <form method="post">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
 
-<p>Make a new account <a href="{% url 'messagesapp:register' %}">here</a></p>
+  <p>Make a new account <a href="{% url 'messagesapp:register' %}">here</a></p>
+</div>
+
+{% endblock %}

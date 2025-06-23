@@ -1,52 +1,45 @@
-<!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="utf-8" />
-    <title>Message app</title>
-  </head>
-  <body>
-    <p>This is a message app!</p>
-    <p>You're logged in as {{ user.username }}</p>
+{% extends "messagesapp/navbar.html" %} {% block nav %}
 
-    <a href="{% url 'messagesapp:logout' %}">Logout</a>
-    <p></p>
+<div class="container mt-4 p-4">
+  <h1>Welcome to the Message App</h1>
+  <div class="container mt-4">
+    <p>
+      This is a simple message app where you can send and receive messages. Use
+      the navigation bar to send a new message, search for messages, or log out.
+    </p>
+  </div>
 
-    <a href="{% url 'messagesapp:new_message' %}"> Send a new message</a>
-
+  <h2>Received Messages</h2>
+  <ul>
     {% if received_messages_list %}
-    <ul>
-      <h2>Received Messages</h2>
-      <p>Here are the messages you have received:</p>
-      {% for message in received_messages_list %}
-      <li>
-        <a href="{% url 'messagesapp:detail' message.id %}"
-          >{{ message.content }}</a
-        >
-      </li>
-      {% endfor %}
-    </ul>
+    <p>Here are the messages you have received:</p>
+    {% for message in received_messages_list %}
+    <li>
+      <a href="{% url 'messagesapp:detail' message.id %}"
+        >{{ message.content }}</a
+      >
+    </li>
+    {% endfor %} 
+  </ul>
     {% else %}
     <p>No messages received.</p>
-    {% endif %} {% if sent_messages_list %}
-    <ul>
-      <h2>Sent Messages</h2>
-      <p>Here are the messages you have sent:</p>
-      {% for message in sent_messages_list %}
-      <li>
-        <a href="{% url 'messagesapp:detail' message.id %}"
-          >{{ message.content }}</a
-        >
-      </li>
-      {% endfor %}
+  </ul>
+  {% endif %}
+  <h2>Sent Messages</h2>
+  <ul>
+    {% if sent_messages_list %}
+    <p>Here are the messages you have sent:</p>
+    {% for message in sent_messages_list %}
+    <li>
+      <a href="{% url 'messagesapp:detail' message.id %}"
+        >{{ message.content }}</a
+      >
+    </li>
+    {% endfor %}
     </ul>
     {% else %}
     <p>No messages sent.</p>
-    {% endif %}
-
-    <h3>Search Messages</h3>
-    <form action="{% url 'messagesapp:search' %}" method="get">
-      <input type="text" name="query" placeholder="Search messages..." />
-      <input type="submit" value="Search" />
-    </form>
-  </body>
-</html>
+  </ul>
+  {% endif %}
+</div>
+{% endblock %}

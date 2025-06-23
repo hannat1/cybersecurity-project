@@ -1,11 +1,16 @@
-<h1>Message Details</h1>
+{% extends "messagesapp/navbar.html" %} {% block nav %}
+<div class="container mt-4 p-4">
+  <h1>Message Details</h1>
 
-<p><strong>From:</strong> {{ message.sender }}</p>
-<p><strong>To:</strong> {{ message.recipient }}</p>
-<p><strong>Time:</strong> {{ message.timestamp }}</p>
+  <p><strong>From:</strong> {{ message.sender }}</p>
+  <p><strong>To:</strong> {{ message.recipient }}</p>
+  <p><strong>Time:</strong> {{ message.timestamp }}</p>
 
-<p><strong>Message:</strong></p>
-<!--Vulnerability: XSS -->
-<div>{{ message.content|safe }}</div>
+  <p><strong>Message:</strong></p>
+  <div>{{ message.content|safe }}</div>
+  <br />
 
-<a href="{% url 'messagesapp:index' %}">Back to messages</a>
+  <a href="{% url 'messagesapp:index' %}">Back to messages</a>
+</div>
+
+{% endblock %}

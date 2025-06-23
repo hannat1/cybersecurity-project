@@ -1,22 +1,50 @@
-{% if error_message %}
-<h2><strong>{{ error_message }}</strong></h2>
-{% endif %}
+{% extends "messagesapp/navbar.html" %} {% block nav %}
 
-<p>Send a new message:</p>
-<form action="{% url 'messagesapp:new_message' %}" method="post">
-  {% csrf_token %}
+<div class="container mt-4 p-4">
+  <h1>Send a New Message</h1>
+  {% if error_message %}
+  <h2><strong>{{ error_message }}</strong></h2>
+  {% endif %}
 
-  <label for="recipient">Recipient:</label>
-  <br />
+  <form action="{% url 'messagesapp:new_message' %}" method="post">
+    {% csrf_token %}
 
-  <input type="text" name="recipient" id="recipient" />
-  <br />
+    <div class="form-floating mb-3">
+      <select
+        class="form-select"
+        id="recipientDropdown"
+        aria-label="Recipient"
+        onchange="selectRecipient(this.value)"
+      >
+        <option selected disabled value="">Choose a recipient</option>
+        {% for user in users %}
+        <option value="{{ user }}">{{ user }}</option>
+        {% endfor %}
+      </select>
+      <label for="recipientDropdown">Select recipient:</label>
+    </div>
 
-  <label for="content">Content:</label>
-  <br />
+    <input type="hidden" name="recipient" id="recipient" />
 
-  <input type="text" name="content" id="content" />
-  <br />
+    <div class="form-floating mb-3">
+      <textarea
+        class="form-control"
+        placeholder="Write your message here"
+        id="content"
+        name="content"
+        style="height: 100px"
+      ></textarea>
+      <label for="content">Message Content:</label>
+    </div>
 
-  <input type="submit" value="Send" />
-</form>
+    <button type="submit" class="btn btn-primary">Send</button>
+  </form>
+</div>
+
+<script>
+  function selectRecipient(username) {
+    document.getElementById("recipient").value = username
+  }
+</script>
+
+{% endblock %}
