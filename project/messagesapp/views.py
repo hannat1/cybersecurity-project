@@ -84,7 +84,6 @@ def register(request):
     form = UserCreationForm()
     return render(request, 'messagesapp/register.html', {'form': form})
 
-@csrf_exempt
 def login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
