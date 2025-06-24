@@ -31,8 +31,8 @@ def detail(request, message_id):
     message = get_object_or_404(Message, pk=message_id)
     # Fix: 
     # Check if the logged in user has permission to view the message
-    # if message.sender != request.user.username and message.recipient != request.user.username:
-    #    raise Http404("You do not have permission to view this message.")
+    #if message.sender != request.user.username and message.recipient != request.user.username:
+        #raise Http404("You do not have permission to view this message.")
     context = {'message': message}
     return render(request, 'messagesapp/detail.html', context)
 
@@ -41,11 +41,11 @@ def detail(request, message_id):
 # Users can send messages without CSRF protection
 # Fix:
 # Remove the @csrf_exempt decorator below to enable CSRF protection
-#@csrf_exempt
+@csrf_exempt
 def new_message(request):
     if request.method == 'POST':
         try:
-            sender = request.user.username
+            sender = request.user.username or request.POST.get('sender')
             recipient = request.POST.get('recipient')
             content = request.POST.get('content')
             # Vulnerability: XSS 
@@ -100,8 +100,8 @@ def login(request):
     # The password is exposed in the HTML form
     # Fix:
     # Use a password input field instead of a text input field
-    #form.fields['password'].widget = PasswordInput()
-    form.fields['password'].widget = TextInput()
+    form.fields['password'].widget = PasswordInput()
+    #form.fields['password'].widget = TextInput()
     return render(request, 'messagesapp/login.html', {'form': form})
 
 
