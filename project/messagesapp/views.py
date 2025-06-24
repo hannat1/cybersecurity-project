@@ -100,8 +100,8 @@ def login(request):
     # The password is exposed in the HTML form
     # Fix:
     # Use a password input field instead of a text input field
-    form.fields['password'].widget = PasswordInput()
-    #form.fields['password'].widget = TextInput()
+    #form.fields['password'].widget = PasswordInput()
+    form.fields['password'].widget = TextInput()
     return render(request, 'messagesapp/login.html', {'form': form})
 
 
